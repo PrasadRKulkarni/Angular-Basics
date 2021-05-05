@@ -1,0 +1,75 @@
+<h1>Angular ngFor directive</h1>
+
+<emp-count [all]="getTotalEmpCount()" [male]="getTotalMaleEmpCount()" [female]="getTotalFemaleEmpCount()"
+    (countRadioButtonSelectionChange)="onEmployeeCountRadioButtonChange($event)">
+</emp-count>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Name - Custom Pipe
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Salary
+            </th>
+            <th>
+                DOB
+            </th>
+            <th>
+                Index
+            </th>
+            <th>
+                Is First
+            </th>
+            <th>
+                Is Last
+            </th>
+            <th>
+                Odd
+            </th>
+            <th>
+                Even
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <ng-container *ngFor="let a of employees; 
+                        trackBy:trackByEmpCode; 
+                        let i = index; 
+                        let f = first; let l = last;
+                        let e = even;
+                        let o = odd">
+            <tr *ngIf="selectedEmployeeCountRadioButton =='All' || selectedEmployeeCountRadioButton==a.gender">
+                <td>{{a.code}}</td>
+                <td>{{a.name | uppercase}}</td>
+                <td>{{a.name | employeeTitle: a.gender}}</td>
+                <td>{{a.gender | lowercase}}</td>
+                <td>{{a.sal | currency: 'INR'}}</td>
+                <td>{{a.dob | date: 'dd/MMM/yyyy'}}</td>
+                <td>{{i + 1}}</td>
+                <td>{{f}}</td>
+                <td>{{l}}</td>
+                <td>{{e}}</td>
+                <td>{{o}}</td>
+            </tr>
+        </ng-container>
+        <tr *ngIf="!employees || employees.length==0">
+            No Records
+        </tr>
+    </tbody>
+</table>
+
+<br />
+
+<button (click)="getEmployees()"> Refresh Employees </button>
